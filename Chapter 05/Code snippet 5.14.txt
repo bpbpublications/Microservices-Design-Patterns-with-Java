@@ -1,0 +1,6 @@
+1.	        int port = 8080;
+2.	        Server server = ServerBuilder.forPort(port)
+3.	                .addService(new SampleGRPCServiceV1Impl())
+4.	                .addService(new SampleGRPCServiceV2Impl())
+5.	                .build()
+6.	                .start();

@@ -1,0 +1,21 @@
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+import java.util.List;
+
+@Repository
+public interface EmployeeRepository extends JpaRepository<Employee, Long> {
+
+    // Query using Spring Data JPA's Query Creation feature
+    List<Employee> findByFirstName(String firstName);
+
+    // Query using @Query annotation with JPQL
+    @Query("SELECT e FROM Employee e WHERE e.lastName = :lastName")
+    List<Employee> findEmployeesByLastName(String lastName);
+
+    // Query using @Query annotation with native SQL
+    @Query(value = "SELECT * FROM Employee WHERE salary > :salary", nativeQuery = true)
+    List<Employee> findEmployeesWithSalaryAbove(double salary);
+
+    ...
+}

@@ -1,0 +1,12 @@
+1.	import org.springframework.web.bind.annotation.GetMapping;
+2.	import org.springframework.web.bind.annotation.RestController;
+3.	
+4.	@RestController
+5.	public class SampleRestService {
+6.	
+7.	    @GetMapping("/doSomething")
+8.	    public String doSomething() {
+9.	        // ... your code here ...
+10.	        return "Done";
+11.	    }
+12.	}

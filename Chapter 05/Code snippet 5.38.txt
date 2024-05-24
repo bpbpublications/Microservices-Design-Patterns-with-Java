@@ -1,0 +1,21 @@
+1.	package com.example.client;
+2.	
+3.	import jakarta.ws.rs.HttpMethod;
+4.	import org.pipservices3.commons.errors.ApplicationException;
+5.	
+6.	
+7.	public class RestClient extends org.pipservices3.rpc.clients.RestClient implements IClient {
+8.	
+9.	    public RestClient() {
+10.	        super("someservice/v1");
+11.	    }
+12.	
+13.	    @Override
+14.	    public String doSomething(String correlationId) {
+15.	        try {
+16.	            return this.call(String.class, "example_client", HttpMethod.GET, "/doSomething", null);
+17.	        } catch (ApplicationException ex) {
+18.	            throw new RuntimeException(ex);
+19.	        }
+20.	    }
+21.	}

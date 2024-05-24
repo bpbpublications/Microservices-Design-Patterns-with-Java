@@ -1,0 +1,13 @@
+public class IProductRepository {
+  …
+}
+
+
+public interface MySqlProductRepository extends IProductRepository {
+  …
+} 
+
+
+public interface OracleProductRepository extends IProductRepository {
+  …
+} 

@@ -1,0 +1,36 @@
+1.	import org.springframework.boot.CommandLineRunner;
+2.	import org.springframework.boot.SpringApplication;
+3.	import org.springframework.boot.WebApplicationType;
+4.	import org.springframework.boot.autoconfigure.SpringBootApplication;
+5.	import org.springframework.http.HttpEntity;
+6.	import org.springframework.http.HttpMethod;
+7.	import org.springframework.http.HttpStatus;
+8.	import org.springframework.http.ResponseEntity;
+9.	import org.springframework.web.client.RestTemplate;
+10.	
+11.	@SpringBootApplication
+12.	public class SampleClientApplication implements CommandLineRunner {
+13.	
+14.	 private final RestTemplate restTemplate = new RestTemplate();
+15.	
+16.	 public static void main(String[] args) {
+17.	  var application = new SpringApplication(SampleClientApplication.class);
+18.	  application.setWebApplicationType(WebApplicationType.NONE);
+19.	  application.run(args);
+20.	 }
+21.	
+22.	 @Override
+23.	 public void run(String... args) {
+24.	  String serviceUrl = "http://localhost:8080/sample/do-something";
+25.	  String requestBody = "This is a sample request body";
+26.	  HttpEntity<String> request = new HttpEntity<>(requestBody);
+27.	
+28.	  ResponseEntity<String> response = restTemplate.exchange(serviceUrl, HttpMethod.POST, request, String.class);
+29.	
+30.	  if (response.getStatusCode() == HttpStatus.OK) {
+31.	   System.out.println("Response from server: " + response.getBody());
+32.	  } else {
+33.	   System.out.println("Error occurred: " + response.getStatusCode());
+34.	  }
+35.	 }
+36.	}

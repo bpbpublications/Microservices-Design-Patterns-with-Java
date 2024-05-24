@@ -1,0 +1,28 @@
+#!/usr/bin/env pwsh
+
+Set-StrictMode -Version latest
+$ErrorActionPreference = "Stop"
+
+# Get component data and set necessary variables
+$component = Get-Content -Path "component.json" | ConvertFrom-Json
+
+$buildImage = "$($component.registry)/$($component.name):$($component.version)-$($component.build)-build"
+$container = $component.name
+
+# Remove build files
+if (Test-Path "$PSScriptRoot/target") {
+   Remove-Item -Recurse -Force -Path "$PSScriptRoot/target"
+}
+
+# Build docker image
+docker build -f "$PSScriptRoot/docker/Dockerfile.build" -t $buildImage $PSScriptRoot
+
+# Create and copy compiled files, then destroy
+docker create --name $container $buildImage
+docker cp "$($container):/app/target" "$PSScriptRoot/target"
+docker rm $container
+
+# Verify build
+if (-not (Test-Path "$PSScriptRoot/target")) {
+   Write-Error "'target' folder doesn't exist in root dir. Build failed. Watch the logs above."
+}

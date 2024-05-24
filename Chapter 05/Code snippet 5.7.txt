@@ -1,0 +1,37 @@
+1.	package com.example.samples;
+2.	
+3.	import com.example.samples.grpc.SampleGRPCServiceImpl;
+4.	import io.grpc.Server;
+5.	import io.grpc.ServerBuilder;
+6.	
+7.	import java.io.IOException;
+8.	
+9.	public class SampleGRPCServer {
+10.	    public static void main(String[] args) throws IOException, InterruptedException {
+11.	        int port = 8090;
+12.	        Server server = ServerBuilder.forPort(port)
+13.	                .addService(new SampleGRPCServiceImpl())
+14.	                .build()
+15.	                .start();
+16.	        System.out.println("Server started on port " + port);
+17.	        server.awaitTermination();
+18.	    }
+19.	}
+20.	
+21.	package com.example.samples.grpc;
+22.	
+23.	
+24.	import io.grpc.stub.StreamObserver;
+25.	
+26.	public class SampleGRPCServiceImpl extends SampleGRPCServiceGrpc.SampleGRPCServiceImplBase {
+27.	
+28.	    @Override
+29.	    public void doSomething(DoSomethingRequest request,
+30.	                            StreamObserver<DoSomethingResponse> responseObserver) {
+31.	        var req = request.getInput();
+32.	        var res = "Request: " + req + "\n" + "Hello, I just did something!";
+33.	
+34.	        responseObserver.onNext(DoSomethingResponse.newBuilder().setResult(res).build());
+35.	        responseObserver.onCompleted();
+36.	    }
+37.	}

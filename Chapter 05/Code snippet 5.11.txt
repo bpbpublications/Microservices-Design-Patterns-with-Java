@@ -1,0 +1,17 @@
+1.	package com.example.samples.jakartaspring;
+2.	
+3.	import org.springframework.beans.factory.annotation.Autowired;
+4.	import org.springframework.jms.core.JmsTemplate;
+5.	import org.springframework.stereotype.Component;
+6.	
+7.	@Component
+8.	public class JmsPublisher {
+9.	
+10.	    @Autowired
+11.	    JmsTemplate jmsTemplate;
+12.	
+13.	    public void publishMessage(String message) {
+14.	        jmsTemplate.convertAndSend("myQueue", message);
+15.	        System.out.println("Message published: " + message);
+16.	    }
+17.	}

@@ -1,0 +1,30 @@
+import com.mongodb.client.MongoClients;
+…
+
+import org.bson.Document;
+
+public class StateManagementService {
+    private MongoCollection<Document> collection;
+
+    public StateManagementService(String connectionString, String dbName, String collectionName) {
+          MongoClient mongoClient = MongoClients.create(connectionString);
+          this.collection = mongoClient.getDatabase(dbName).getCollection(collectionName);
+    }
+
+    public Map<String, Object> retrieve(String id, int lockTimeoutInSeconds) {
+      Instant lockUntil = Instant.now().plusSeconds(lockTimeoutInSeconds);
+      Document updatedDocument = collection.findOneAndUpdate(
+                Filters.and(Filters.eq("_id", id),
+                     Filters.or(Filters.exists("lockUntil", false),
+                     Filters.lt("lockUntil", Instant.now())
+                     )), Updates.set("lockUntil", lockUntil),
+            new FindOneAndUpdateOptions().returnDocument(ReturnDocument.AFTER)
+      );
+      return updatedDocument != null ? new HashMap<>(updatedDocument) : null;}
+
+    public void store(String id, Map<String, Object> newState) {
+        var update = new Document("$set", newState);
+        update.append("$unset", new Document("lockUntil", false));
+        collection.updateOne(new Document("_id", id),
+                update,new UpdateOptions().upsert(true)
+        );}}

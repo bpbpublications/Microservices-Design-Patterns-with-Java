@@ -1,0 +1,5 @@
+@Repository
+public interface EmployeeRepository extends JpaRepository<Employee, Long>, JpaSpecificationExecutor<Employee> {
+
+    List<Employee> findAll(Specification<Employee> spec, Pageable pageable, Sort sort);
+}

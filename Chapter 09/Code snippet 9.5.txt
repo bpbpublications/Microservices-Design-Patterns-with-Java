@@ -1,0 +1,17 @@
+
+import io.micrometer.core.instrument.MeterRegistry;
+…
+
+@RestController
+public class SampleController {
+    private final MeterRegistry meterRegistry;
+
+    public SampleController(MeterRegistry meterRegistry) {
+        this.meterRegistry = meterRegistry;
+    }
+
+    @GetMapping("/do-something")
+    public String doSomething() {
+        meterRegistry.counter("my.counter").increment();
+        ...
+    }}

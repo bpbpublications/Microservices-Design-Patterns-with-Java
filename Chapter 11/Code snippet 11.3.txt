@@ -1,0 +1,27 @@
+public class UserPersistenceIntegrationTest {
+    private String databaseUrl;
+    private Connection connection;
+
+    @BeforeEach
+    public void init() throws Exception {
+        databaseUrl = System.getenv("DATABASE_URL");
+        if (String.isNullOrEmpty(databaseUrl)) {
+                databaseUrl = "jdbc:postgresql://localhost:5432/userdb?user=test&password=test";
+        }
+        connection = DriverManager.getConnection(databaseUrl);
+    }
+
+    @Test
+    public void testUserPersistence() throws Exception {
+        // ... Set up some sample user data ...
+
+        // Persist user data to the database
+        // ...
+
+        // Fetch user data from the database
+        ResultSet resultSet = connection.createStatement().executeQuery("SELECT * FROM users WHERE username = 'testUser'");
+        
+        // Assertions to verify persisted data is as expected
+        // ...
+    }
+}

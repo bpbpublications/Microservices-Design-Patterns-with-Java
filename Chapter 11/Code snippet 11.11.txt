@@ -1,0 +1,36 @@
+public class LoginTest {
+
+    WebDriver driver = new ChromeDriver();
+
+    @Step("Navigate to <url>")
+    public void navigateTo(String url) {
+        driver.get(url);
+    }
+
+    @Step("Enter username <username> and password <password>")
+    public void enterCredentials(String username, String password) {
+        WebElement userField = driver.findElement(By.id("username"));
+        WebElement passField = driver.findElement(By.id("password"));
+
+        userField.sendKeys(username);
+        passField.sendKeys(password);
+    }
+
+    @Step("Click on the login button")
+    public void clickLogin() {
+        WebElement loginButton = driver.findElement(By.id("loginButton"));
+        loginButton.click();
+    }
+
+    @Step("Verify the dashboard page is displayed")
+    public void verifyDashboard() {
+        WebElement dashboard = driver.findElement(By.id("dashboard"));
+        assert(dashboard.isDisplayed());
+    }
+
+    @Step("Verify the error message <message> is displayed")
+    public void verifyErrorMessage(String message) {
+        WebElement errorMessage = driver.findElement(By.id("errorMessage"));
+        assert(errorMessage.getText().equals(message));
+    }
+}

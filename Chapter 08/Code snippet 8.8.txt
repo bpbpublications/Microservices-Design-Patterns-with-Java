@@ -1,0 +1,14 @@
+String https_url = "https://localhost:8443/api/hello";
+URL url = new URL(https_url);
+HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
+
+// If you're working with self-signed certificates or certificates not in the Java truststore, 
+// additional configuration may be required here to establish trust.
+
+BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+           
+String inputLine;
+while ((inputLine = br.readLine()) != null) {
+    System.out.println(inputLine);
+}
+br.close();

@@ -1,0 +1,18 @@
+@Stateless
+public class MyTimerServiceBean {
+
+    @Resource
+    TimerService timerService;
+
+    public void initializeTimer(long duration) {
+        TimerConfig config = new TimerConfig();
+        config.setInfo("MyTimerInfo");
+        timerService.createSingleActionTimer(duration, config);
+    }
+
+    @Timeout
+    public void timeoutHandler(Timer timer) {
+        System.out.println("Timer Service : " + timer.getInfo());
+        // Implement the timed logic here
+    }
+}

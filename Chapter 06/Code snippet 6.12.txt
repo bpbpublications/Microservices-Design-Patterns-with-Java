@@ -1,0 +1,35 @@
+import java.io.Serializable;
+
+public class SortField implements Serializable {
+    private String name;
+    private boolean ascending;
+
+    public SortField() {
+    }
+
+    public SortField(String name, boolean ascending) {
+        this.name = name;
+        this.ascending = ascending;
+    }
+
+    // getters and setters
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public boolean isAscending() {
+        return ascending;
+    }
+
+    public void setAscending(boolean ascending) {
+        this.ascending = ascending;
+    }
+}
+
+public class SortParams extends ArrayList<SortField> implements Serializable {
+}

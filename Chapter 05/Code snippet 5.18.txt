@@ -1,0 +1,26 @@
+1.	package com.example.samples.http;
+2.	
+3.	import io.swagger.v3.oas.models.OpenAPI;
+4.	
+5.	import io.swagger.v3.oas.models.info.Info;
+6.	import org.springframework.beans.factory.annotation.Value;
+7.	import org.springframework.context.annotation.Bean;
+8.	import org.springframework.context.annotation.Configuration;
+9.	
+10.	@Configuration
+11.	public class SwaggerConfig {
+12.	    @Value("${springdoc.swagger-ui.swagger-name}")
+13.	    private String swaggerName;
+14.	    @Value("${springdoc.swagger-ui.swagger-description}")
+15.	    private String swaggerDescription;
+16.	
+17.	    @Bean
+18.	    public OpenAPI customOpenAPI() {
+19.	        return new OpenAPI().info(
+20.	                new Info()
+21.	                        .title(swaggerName)
+22.	                        .description(swaggerDescription)
+23.	                        .termsOfService("http://swagger.io/terms/")
+24.	        );
+25.	    }
+26.	}

@@ -1,0 +1,19 @@
+1.	package com.example.samples.jakartaspring;
+2.	
+3.	import org.springframework.boot.SpringApplication;
+4.	import org.springframework.boot.autoconfigure.SpringBootApplication;
+5.	import org.springframework.context.ConfigurableApplicationContext;
+6.	
+7.	@SpringBootApplication
+8.	public class JmsExampleApplication {
+9.	
+10.	   public static void main(String[] args) throws InterruptedException {
+11.	       ConfigurableApplicationContext context = SpringApplication.run(JmsExampleApplication.class, args);
+12.	
+13.	       JmsPublisher jmsPublisher = context.getBean(JmsPublisher.class);
+14.	       jmsPublisher.publishMessage("Hello, JMS Pub/Sub!");
+15.	
+16.	       // Close the application context
+17.	       context.close();
+18.	   }
+19.	}

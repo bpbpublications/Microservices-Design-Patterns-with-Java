@@ -1,0 +1,51 @@
+1.	package com.example.samples;
+2.	
+3.	import javax.jms.Connection;
+4.	import javax.jms.ConnectionFactory;
+5.	import javax.jms.Message;
+6.	import javax.jms.MessageConsumer;
+7.	import javax.jms.Queue;
+8.	import javax.jms.Session;
+9.	import javax.jms.TextMessage;
+10.	import javax.naming.Context;
+11.	import javax.naming.InitialContext;
+12.	
+13.	public class JmsConsumerExample {
+14.	
+15.	    public static void main(String[] args) {
+16.	        try {
+17.	            // Set up JNDI context and connection factory
+18.	            Context jndiContext = new InitialContext();
+19.	            ConnectionFactory connectionFactory = (ConnectionFactory) jndiContext.lookup("ConnectionFactory");
+20.	
+21.	            // Look up the destination (queue)
+22.	            Queue queue = (Queue) jndiContext.lookup("ExampleQueue");
+23.	
+24.	            // Create connection, session, and consumer
+25.	            Connection connection = connectionFactory.createConnection();
+26.	            Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+27.	            MessageConsumer consumer = session.createConsumer(queue);
+28.	
+29.	            // Start the connection and receive a message
+30.	            connection.start();
+31.	            Message message = consumer.receive();
+32.	
+33.	            // Process the received message
+34.	            if (message instanceof TextMessage) {
+35.	                TextMessage textMessage = (TextMessage) message;
+36.	                System.out.println("Received message: " + textMessage.getText());
+37.	            } else {
+38.	                System.err.println("Received message is not a TextMessage");
+39.	            }
+40.	
+41.	            // Clean up resources
+42.	            consumer.close();
+43.	            session.close();
+44.	            connection.close();
+45.	            jndiContext.close();
+46.	        } catch (Exception e) {
+47.	            System.err.println("Exception occurred: " + e.getMessage());
+48.	            e.printStackTrace();
+49.	        }
+50.	    }
+51.	}

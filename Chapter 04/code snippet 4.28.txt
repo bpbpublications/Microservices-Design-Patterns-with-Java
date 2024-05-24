@@ -1,0 +1,12 @@
+public SearchMicroservice {
+  public ISearchService _searchService;
+  …
+
+
+  public void build(Configuration config) {
+    …
+    this._searchService = config.newSearchAlgorithm 
+      ? new NewSearchService() : new OldSearchService();
+    …
+   }
+}

@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+...
+      containers:
+        ...
+        env:
+        - name: DB_TYPE
+          valueFrom:
+            configMapKeyRef:
+              key: db_type
+              name: env-config
+        - name: DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              key: db_host
+              name: env-config
+ ...
+        - name: DB_PASS
+          valueFrom:
+            secretKeyRef:
+              key: db_pass
+              name: env-secrets
+ ...

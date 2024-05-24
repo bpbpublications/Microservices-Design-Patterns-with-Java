@@ -1,0 +1,1 @@
+java com.puppycrawl.tools.checkstyle.Main -c /google_checks.xml src/

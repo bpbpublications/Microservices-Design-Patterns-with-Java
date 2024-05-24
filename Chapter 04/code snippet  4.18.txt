@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Pod
+metadata:
+ name: service-products-java
+ labels:
+   app: service-products-java
+spec:
+ selector:
+   matchLabels:
+     app: service-products-java
+ containers:
+ - name: service-products-java
+   image: service-products-java:1.0.0
+   ports:
+   - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: products-java
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+  selector:
+    app: service-products-java
+  type: ClusterIP

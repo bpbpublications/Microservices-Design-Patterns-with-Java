@@ -1,0 +1,16 @@
+public interface ISearchService {
+  public SearchResult[] search();
+  …
+}
+
+
+// Old search algorithm
+public class OldSearchService implements ISearchService {
+  …
+}
+
+
+// New search algorithm
+public class NewSearchService implements ISearchService {
+  …
+}

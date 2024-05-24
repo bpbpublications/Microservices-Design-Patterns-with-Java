@@ -1,0 +1,9 @@
+1.	@RestController
+2.	@RequestMapping(value = "/sample/v1", params = "version=1", headers = "X-API-Version=1")
+3.	public class SampleRestService {
+4.	
+5.	    @PostMapping("/do-something")
+6.	    public String doSomething(@RequestParam("version") String version) {
+7.	        return "Version: " + version + " | Hello, I just did something!";
+8.	    }
+9.	}

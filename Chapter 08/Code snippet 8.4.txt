@@ -1,0 +1,12 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "product": {
+      "id": "123",
+      "name": "Laptop",
+      "price": 999.99
+    }
+  }
+}

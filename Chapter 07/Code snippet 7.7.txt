@@ -1,0 +1,13 @@
+// Create a distributed lock
+DistributedLock lock = new DistributedLock("testLock", "localhost", 11211);
+
+// Acquire the lock
+if (lock.tryAcquire(10, TimeUnit.SECONDS)) {
+   try {
+       // Perform some critical section of code here
+       System.out.println("Performing critical section of code...");
+    } finally { lock.release(); // Release the lock}
+ } else {
+     // Handle failure to acquire lock
+     System.out.println("Unable to acquire lock, try again later...");
+ }

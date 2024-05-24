@@ -1,0 +1,8 @@
+import org.springframework.web.bind.annotation.GetMapping;
+…
+
+@RestController
+public class HealthCheckController {
+
+    @GetMapping("/heartbeat")
+    public String heartbeat() {return LocalDateTime.now().toString(); }}

@@ -1,0 +1,1 @@
+database.host: ${DATABASE_HOST:localhost}

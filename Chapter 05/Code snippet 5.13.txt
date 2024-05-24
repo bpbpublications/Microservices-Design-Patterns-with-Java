@@ -1,0 +1,16 @@
+1.	package com.example.samples.jakartaspring;
+2.	
+3.	
+4.	import org.springframework.jms.annotation.JmsListener;
+5.	import org.springframework.stereotype.Component;
+6.	
+7.	import javax.jms.MessageListener;
+8.	
+9.	@Component
+10.	public class JmsSubscriber {
+11.	
+12.	    @JmsListener(destination = "myQueue")
+13.	    public void receiveMessage(String message) {
+14.	        System.out.println("Received message1: " + message);
+15.	    }
+16.	}

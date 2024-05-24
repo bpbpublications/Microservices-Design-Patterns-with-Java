@@ -1,0 +1,27 @@
+package com.example.lambda;
+
+import com.amazonaws.services.lambda.runtime.Context;
+import com.amazonaws.services.lambda.runtime.RequestHandler;
+import java.util.Map;
+
+public class HelloWorldCommandable implements RequestHandler<Map<String, String>, String> {
+
+    @Override
+    public String handleRequest(Map<String, String> input, Context context) {
+        if (input.containsKey("command")) {
+            switch (input.get("command")) {
+                case "sayHello":
+                    return sayHello();
+                // You can add more commands here as needed
+                default:
+                    return "Unknown command";
+            }
+        } else {
+            return "No command provided";
+        }
+    }
+
+    private String sayHello() {
+        return "Hello, World!";
+    }
+}

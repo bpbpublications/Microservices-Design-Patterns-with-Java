@@ -1,0 +1,13 @@
+1.	import java.util.concurrent.ConcurrentHashMap;
+2.	
+3.	public class BlobStorage {
+4.	    private static final ConcurrentHashMap<String, byte[]> storage = new ConcurrentHashMap<>();
+5.	
+6.	    public static void put(String key, byte[] data) {
+7.	        storage.put(key, data);
+8.	    }
+9.	
+10.	    public static byte[] get(String key) {
+11.	        return storage.get(key);
+12.	    }
+13.	}

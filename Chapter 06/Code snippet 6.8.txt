@@ -1,0 +1,7 @@
+public class FilterParams extends HashMap<String, Object> {
+
+    public FilterParams() {
+        super();
+    }
+
+}

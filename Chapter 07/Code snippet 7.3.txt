@@ -1,0 +1,44 @@
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/accounts")
+public class UserAccountController {
+    private final UserAccountService userAccountService;
+
+    public UserAccountController(UserAccountService userAccountService) {
+        this.userAccountService = userAccountService;
+    }
+
+    // ... other handlers
+
+    @PatchMapping("/{id}")
+    public UserAccount patchAccount(@PathVariable Long id, @RequestBody Map<String, Object> updates) {
+        return userAccountService.patchAccount(id, updates);
+    }}
+
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class UserAccountService {
+    private final UserAccountRepository userAccountRepository;
+
+    public UserAccountService(UserAccountRepository userAccountRepository) {
+        this.userAccountRepository = userAccountRepository;}
+
+    // ... other methods
+
+    public UserAccount patchAccount(Long id, Map<String, Object> updates) {
+        UserAccount account = getAccount(id);  // Load existing account
+
+        // Apply updates
+        for (Map.Entry<String, Object> entry : updates.entrySet()) {
+            switch (entry.getKey()) {
+                case "name":
+                    account.setFirstName((String) entry.getValue());
+                    break;
+                // Add more case blocks for other updatable fields
+            }}
+
+        return userAccountRepository.save(account);  // Save updated account
+    }}

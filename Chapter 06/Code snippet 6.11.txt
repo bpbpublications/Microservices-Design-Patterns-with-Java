@@ -1,0 +1,21 @@
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+@Service
+public class EmployeeService {
+
+    private final EmployeeRepository employeeRepository;
+
+    public EmployeeService(EmployeeRepository employeeRepository) {
+        this.employeeRepository = employeeRepository;
+    }
+
+    public Page<Employee> findAllEmployees(FilterParams filterParams, PagingParams pagingParams) {
+        Pageable pageable = PageRequest.of(pagingParams.getPageNumber(), pagingParams.getPageSize());
+        Specification<Employee> specification = EmployeeSpecification.matchesEmployeeCriteria(filterParams);
+
+        return employeeRepository.findAll(specification, pageable);
+    }
+}

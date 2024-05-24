@@ -1,0 +1,13 @@
+# Login Test
+
+## Successful Login
+* Navigate to "https://example.com/login"
+* Enter username "admin" and password "password123"
+* Click on the login button
+* Verify the dashboard page is displayed
+
+## Failed Login due to incorrect password
+* Navigate to "https://example.com/login"
+* Enter username "admin" and password "wrongPassword"
+* Click on the login button
+* Verify the error message "Invalid credentials" is displayed

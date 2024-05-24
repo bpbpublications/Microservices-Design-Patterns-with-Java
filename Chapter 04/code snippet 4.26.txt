@@ -1,0 +1,19 @@
+public class SearchService {
+  private boolean _newAlgorithm = false;
+
+
+  public SearchService(boolean newAlgorithm) {
+    this._newAlgorithm = newAlgorithm;
+    …
+  }
+
+
+  public SearchResults[] search() {
+    if (this._newAlgorithm) {
+      // New search algorithm
+      …
+     } else {
+      // Old search algorithm
+      …
+    }
+  }

@@ -1,0 +1,2 @@
+String databaseHost = System.getEnv(“DATABASE_HOST”);
+int databasePort = Integer.parseInt(System.getEnv(“DATABASE_PORT”));

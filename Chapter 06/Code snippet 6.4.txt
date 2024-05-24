@@ -1,0 +1,11 @@
+public class User implements Identifiable {
+    private String email; // natural key
+    private String name;
+    private String address;
+
+    public String getId() {
+        return email;
+    }
+
+   …
+}

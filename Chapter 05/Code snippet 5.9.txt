@@ -1,0 +1,45 @@
+1.	package com.example.samples;
+2.	
+3.	import javax.jms.Connection;
+4.	import javax.jms.ConnectionFactory;
+5.	import javax.jms.MessageProducer;
+6.	import javax.jms.Queue;
+7.	import javax.jms.Session;
+8.	import javax.jms.TextMessage;
+9.	import javax.naming.Context;
+10.	import javax.naming.InitialContext;
+11.	
+12.	
+13.	public class JmsProducerExample {
+14.	
+15.	    public static void main(String[] args) {
+16.	        try {
+17.	            // Set up JNDI context and connection factory
+18.	            Context jndiContext = new InitialContext();
+19.	            ConnectionFactory connectionFactory = (ConnectionFactory) jndiContext.lookup("ConnectionFactory");
+20.	
+21.	            // Look up the destination (queue)
+22.	            Queue queue = (Queue) jndiContext.lookup("ExampleQueue");
+23.	
+24.	            // Create connection, session, and producer
+25.	            Connection connection = connectionFactory.createConnection();
+26.	            Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+27.	            MessageProducer producer = session.createProducer(queue);
+28.	
+29.	            // Create and send a text message
+30.	            TextMessage message = session.createTextMessage("Hello, JMS!");
+31.	            producer.send(message);
+32.	
+33.	            System.out.println("Message sent successfully!");
+34.	
+35.	            // Clean up resources
+36.	            producer.close();
+37.	            session.close();
+38.	            connection.close();
+39.	            jndiContext.close();
+40.	        } catch (Exception e) {
+41.	            System.err.println("Exception occurred: " + e.getMessage());
+42.	            e.printStackTrace();
+43.	        }
+44.	    }
+45.	}

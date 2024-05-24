@@ -1,0 +1,29 @@
+1.	<?xml version="1.0" encoding="UTF-8"?>
+2.	<project …>
+3.	 <modelVersion>4.0.0</modelVersion>
+4.	 <parent>
+5.	  <groupId>org.springframework.boot</groupId>
+6.	  <artifactId>spring-boot-starter-parent</artifactId>
+7.	  <version>3.0.6</version>
+8.	  <relativePath/>
+9.	 </parent>
+10.	 <groupId>com.example.client</groupId>
+11.	 <artifactId>sample</artifactId>
+12.	 <version>0.0.1-SNAPSHOT</version>
+13.	 <properties>
+14.	  <java.version>17</java.version>
+15.	 </properties>
+16.	 <dependencies>
+17.	  <dependency>
+18.	   <groupId>org.springframework.boot</groupId>
+19.	   <artifactId>spring-boot-starter-web</artifactId>
+20.	  </dependency>
+21.	
+22.	  <dependency>
+23.	   <groupId>org.springframework.boot</groupId>
+24.	   <artifactId>spring-boot-starter-test</artifactId>
+25.	   <scope>test</scope>
+26.	  </dependency>
+27.	 </dependencies>
+28.	 …
+29.	</project>

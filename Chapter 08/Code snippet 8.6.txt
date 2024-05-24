@@ -1,0 +1,14 @@
+ # The location of the keystore containing the SSL certificate
+   server.ssl.key-store=classpath:keystore.p12
+
+   # The password you used when creating the certificate
+   server.ssl.key-store-password=yourpassword
+
+   # The type of the keystore, PKCS12 in our case
+   server.ssl.keyStoreType=PKCS12
+
+   # The alias mapped to the certificate
+   server.ssl.keyAlias=mycertificate
+
+   # Enable HTTPS
+   server.port=8443

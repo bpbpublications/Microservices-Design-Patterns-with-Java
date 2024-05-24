@@ -1,0 +1,8 @@
+public abstract class ContractVerifierBase {
+
+    @Before
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
+        RestAssuredMockMvc.standaloneSetup(new UserController());
+        }
+}

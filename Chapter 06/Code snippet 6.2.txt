@@ -1,0 +1,55 @@
+import java.time.LocalDateTime;
+
+public interface Identifiable {
+    String getId();
+}
+
+public interface Versioned {
+    long getVersion();
+}
+
+public interface Trackable {
+    LocalDateTime getCreatedAt();
+    LocalDateTime getUpdatedAt();
+    boolean isDeleted();
+}
+
+public class User implements Identifiable, Versioned, Trackable {
+    private String id;
+    private String name;
+    private String email;
+    private long version;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+    private boolean deleted;
+
+    // Constructor, getters and setters…
+    …
+
+    @Override
+    public String getId() {
+        return this.id;
+    }
+
+    @Override
+    public long getVersion() {
+        return this.version;
+    }
+
+    @Override
+    public LocalDateTime getCreatedAt() {
+        return this.createdAt;
+    }
+
+    @Override
+    public LocalDateTime getUpdatedAt() {
+        return this.updatedAt;
+    }
+
+    @Override
+    public boolean isDeleted() {
+        return this.deleted;
+    }
+
+    // Other getters and setters...
+}

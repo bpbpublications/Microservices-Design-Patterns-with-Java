@@ -1,0 +1,13 @@
+import org.springframework.data.domain.Sort;
+
+public class SortParamsConverter {
+    public static Sort convertToSort(SortParams sortParams) {
+        List<Sort.Order> orders = new ArrayList<>();
+
+        for (SortField sortField : sortParams) {
+            orders.add(sortField.isAscending() ? Sort.Order.asc(sortField.getName()) : Sort.Order.desc(sortField.getName()));
+        }
+
+        return Sort.by(orders);
+    }
+}

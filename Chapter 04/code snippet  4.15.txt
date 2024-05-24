@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: env-secret
+type: Opaque
+stringData:
+  db_user: "mysql"
+  db_pass: "p4ssw0rd"

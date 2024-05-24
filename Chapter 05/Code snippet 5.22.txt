@@ -1,0 +1,12 @@
+1.	asyncapi: '2.0.0'
+2.	info:
+3.	  title: 'Message Service'
+4.	  version: '1.0.0'
+5.	channels:
+6.	  messageQueue:
+7.	    publish:
+8.	      message:
+9.	        contentType: text/plain
+10.	        payload: 
+11.	          type: string
+12.	          example: 'Hello, world!'

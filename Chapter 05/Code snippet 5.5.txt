@@ -1,0 +1,19 @@
+1.	syntax = "proto3";
+2.	
+3.	option java_multiple_files = true;
+4.	option java_package = "com.example.samples.grpc";
+5.	option java_outer_classname = "ServiceProto";
+6.	
+7.	package com.example.grpc;
+8.	
+9.	service SampleGRPCService {
+10.	    rpc DoSomething (DoSomethingRequest) returns (DoSomethingResponse);
+11.	}
+12.	
+13.	message DoSomethingRequest {
+14.	    string input = 1;
+15.	}
+16.	
+17.	message DoSomethingResponse {
+18.	    string result = 1;
+19.	}

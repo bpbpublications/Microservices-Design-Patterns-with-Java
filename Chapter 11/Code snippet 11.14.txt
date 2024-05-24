@@ -1,0 +1,2 @@
+chaosmonkey.mttf=60000  # Mean time to failure in milliseconds (60 seconds in this example)
+chaosmonkey.probability=0.1  # 10% failure probability

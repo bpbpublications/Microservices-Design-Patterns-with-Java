@@ -1,0 +1,20 @@
+// Import necessary packages
+import javax.ejb.Stateless;
+
+@Stateless  // Annotate the class as a Stateless Session Bean
+public class HelloWorldBean implements HelloWorldRemote {
+
+    // A simple method to return a greeting message
+    @Override
+    public String sayHello() {
+        return "Hello, World!";
+    }
+}
+
+// Remote interface for the Stateless Session Bean
+import javax.ejb.Remote;
+
+@Remote  // Annotate the interface as a Remote interface
+public interface HelloWorldRemote {
+    String sayHello();
+}

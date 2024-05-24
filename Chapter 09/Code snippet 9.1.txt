@@ -1,0 +1,38 @@
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+…
+
+public class ApplicationException extends Exception implements Serializable {
+
+    @JsonProperty
+    private String type;
+    @JsonProperty
+    private String message;
+    @JsonProperty
+    private String traceId;
+    @JsonProperty
+    private String stackTrace;
+
+    // ObjectMapper for JSON serialization/deserialization
+    private static final ObjectMapper objectMapper = new ObjectMapper();
+
+    public ApplicationException(String type, String message, String traceId, String stackTrace) { // construct object }
+
+    public static ApplicationException wrapError(Exception e, String traceId) {
+        // The original exception's message and stack trace are used, type and category could be based on the exception class.
+        return new ApplicationException(e.getClass().getSimpleName(), e.getMessage(), traceId, Arrays.toString(e.getStackTrace()));
+    }
+
+    // Convert this object to JSON
+    public String toJson() throws JsonProcessingException {
+        return objectMapper.writeValueAsString(this);
+    }
+
+    // Create an object from JSON
+    public static ApplicationException fromJson(String json) throws JsonProcessingException {
+        return objectMapper.readValue(json, ApplicationException.class);
+    }
+
+    // getters and setters...
+}
+

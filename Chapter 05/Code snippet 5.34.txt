@@ -1,0 +1,5 @@
+1.	bucket4j.filters[0].filter-method=servlet
+2.	bucket4j.filters[0].url=/*
+3.	bucket4j.filters[0].rate-limits[0].bandwidths[0].capacity=50
+4.	bucket4j.filters[0].rate-limits[0].bandwidths[0].time=1
+5.	bucket4j.filters[0].rate-limits[0].bandwidths[0].unit=seconds

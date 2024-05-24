@@ -1,0 +1,2 @@
+@Value("${database.host}")
+private String databaseHost;

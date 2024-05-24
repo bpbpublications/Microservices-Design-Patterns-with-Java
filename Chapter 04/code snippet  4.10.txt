@@ -1,0 +1,1 @@
+$ consul-template -template="all-services.tpl:all-services.txt" -once

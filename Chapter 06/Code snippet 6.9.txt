@@ -1,0 +1,29 @@
+public class EmployeeSpecification {
+
+    public static Specification<Employee> matchesEmployeeCriteria(FilterParams filter) {
+        return (root, query, cb) -> {
+            Predicate firstNamePredicate = filter.containsKey("firstName")
+                    ? cb.conjunction()
+                    : cb.like(root.get("firstName"), "%" + filter.get("firstName") + "%");
+            Predicate lastNamePredicate = filter.containsKey("lastName")
+                    ? cb.conjunction()
+                    : cb.like(root.get("lastName"), "%" + filter.get("lastName") + "%");
+
+            Predicate salaryPredicate = cb.conjunction();
+            if (filter.containsKey("aboveSalary"))
+                salaryPredicate = cb.greaterThan(root.get("salary"), (double) filter.get("aboveSalary"));
+
+            return cb.and(firstNamePredicate, lastNamePredicate, salaryPredicate);
+        };
+    }
+}
+
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.repository.PagingAndSortingRepository;
+
+public interface EmployeeRepository extends PagingAndSortingRepository<Employee, Long>, JpaSpecificationExecutor<Employee> {
+    Page<Employee> findAll(Specification<Employee> spec, Pageable pageable);
+}

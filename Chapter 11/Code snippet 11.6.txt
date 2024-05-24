@@ -1,0 +1,12 @@
+Contract.make {
+    request {
+        method 'GET'
+        urlPath(value: '/users/123')
+    }
+
+    response {
+        status 200
+        body([id: 123, name: 'John Doe', email: 'john.doe@example.com'])
+        headers {header('Content-Type': 'application/json;charset=UTF-8')}
+    }
+}

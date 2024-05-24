@@ -1,0 +1,26 @@
+import org.springframework.http.HttpStatus;
+…
+
+@RestController
+@RequestMapping("/api")
+public class SampleController {
+
+    @GetMapping("/do-something")
+    public ResponseEntity<String> doSomething() {
+        try {
+            // Perform some operation...
+            // Let's simulate an exception for demonstration
+            throw new Exception("Simulated exception");
+        } catch (Exception e) {
+            String traceId = "12345";  // Replace with actual TraceId
+
+            ApplicationException appException = ApplicationException.fromException(e, traceId);
+            String errorJson = null;
+            try {
+                errorJson = appException.toJson();
+            } catch (Exception jsonException) {
+                jsonException.printStackTrace();
+            }
+
+            return new ResponseEntity<>(errorJson, HttpStatus.INTERNAL_SERVER_ERROR);
+        }}}

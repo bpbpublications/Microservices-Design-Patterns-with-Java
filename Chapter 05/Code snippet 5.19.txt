@@ -1,0 +1,11 @@
+1.	public class SampleGRPCServer {
+2.	    public static void main(String[] args) throws IOException, InterruptedException {
+3.	        int port = 8080;
+4.	        Server server = ServerBuilder.forPort(port)
+5.	                .addService(new SampleGRPCServiceImplV1())
+6.	                                 .addService(ProtoReflectionService.newInstance()) // Enable reflection
+7.	                .build()
+8.	                .start();
+9.	        System.out.println("Server started on port " + port);
+10.	        server.awaitTermination();
+11.	    }

@@ -1,0 +1,16 @@
+FROM maven:3.8.5-openjdk-18-slim
+
+# set working directory
+WORKDIR /app
+
+# Copy project file
+COPY pom.xml ./
+
+# install dependencies
+RUN mvn dependency:go-offline
+
+# copy all project
+COPY . .
+
+# compile source code
+RUN mvn package -DskipTests

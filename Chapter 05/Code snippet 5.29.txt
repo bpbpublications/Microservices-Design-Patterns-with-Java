@@ -1,0 +1,66 @@
+1.	package com.example.samples.grpc;
+2.	
+3.	
+4.	import io.grpc.Server;
+5.	import io.grpc.stub.StreamObserver;
+6.	
+7.	import java.io.ByteArrayInputStream;
+8.	import java.io.ByteArrayOutputStream;
+9.	import java.io.IOException;
+10.	import java.util.concurrent.ConcurrentHashMap;
+11.	
+12.	public class BlobServiceImpl extends BlobServiceGrpc.BlobServiceImplBase {
+13.	    private Server server;
+14.	    private final ConcurrentHashMap<String, byte[]> storage = new ConcurrentHashMap<>();
+15.	
+16.	    @Override
+17.	    public StreamObserver<UploadRequest> upload(final StreamObserver<UploadResponse> responseObserver) {
+18.	        return new StreamObserver<UploadRequest>() {
+19.	            private String fileName;
+20.	            private ByteArrayOutputStream currentFile;
+21.	
+22.	            @Override
+23.	            public void onNext(UploadRequest value) {
+24.	                if (currentFile == null) {
+25.	                    currentFile = new ByteArrayOutputStream();
+26.	                }
+27.	                try {
+28.	                    currentFile.write(value.getChunk().toByteArray());
+29.	                    fileName = value.getName();
+30.	                } catch (IOException e) {
+31.	                    responseObserver.onError(e);
+32.	                }
+33.	            }
+34.	
+35.	            @Override
+36.	            public void onError(Throwable t) {
+37.	                t.printStackTrace();
+38.	            }
+39.	
+40.	            @Override
+41.	            public void onCompleted() {
+42.	                storage.put(fileName, currentFile.toByteArray());
+43.	                responseObserver.onNext(UploadResponse.newBuilder().setMessage("Upload completed.").build());
+44.	                responseObserver.onCompleted();
+45.	            }
+46.	        };
+47.	    }
+48.	
+49.	    @Override
+50.	    public void download(DownloadRequest request, StreamObserver<DownloadResponse> responseObserver) {
+51.	        byte[] file = storage.get(request.getName());
+52.	        ByteArrayInputStream byteStream = new ByteArrayInputStream(file);
+53.	
+54.	        byte[] buffer = new byte[1024];
+55.	        int len;
+56.	        try {
+57.	            while ((len = byteStream.read(buffer)) != -1) {
+58.	                responseObserver.onNext(DownloadResponse.newBuilder().setChunk(com.google.protobuf.ByteString.copyFrom(buffer, 0, len)).build());
+59.	            }
+60.	        } catch (IOException e) {
+61.	            responseObserver.onError(e);
+62.	        }
+63.	
+64.	        responseObserver.onCompleted();
+65.	    }
+66.	}

@@ -1,0 +1,7 @@
+1.	HttpClient httpClient = HttpClient.create()
+2.	        .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 3000)
+3.	        .responseTimeout(Duration.ofMillis(3000));
+4.	
+5.	var client = WebClient.builder()
+6.	        .clientConnector(new ReactorClientHttpConnector(httpClient))
+7.	        .build();

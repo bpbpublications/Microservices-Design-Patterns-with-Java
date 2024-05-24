@@ -1,0 +1,14 @@
+public class ProxySearchService implements ISearchService {
+  private ISearchService _service;
+
+
+  public void configure(Configuration config) {
+    this._service = config.newSearchAlgorithm
+      ? new NewSearchService() : new OldSearchService();
+  }
+
+
+  public SearchResult[] search() {
+    return._search.search();
+  }
+}

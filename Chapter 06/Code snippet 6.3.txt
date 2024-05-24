@@ -1,0 +1,5 @@
+Map<String, Object> user = new HashMap<>();
+
+user.put("id", "123");
+user.put("name", "John Doe");
+user.put("email", "john.doe@example.com");

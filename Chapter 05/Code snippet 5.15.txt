@@ -1,0 +1,9 @@
+1.	@RestController
+2.	@RequestMapping("/sample/v1")
+3.	public class SampleRestServiceV1 {
+4.	
+5.	    @PostMapping("/do-something")
+6.	    public String doSomething() {
+7.	        return "Hello, I just did something!";
+8.	    }
+9.	}

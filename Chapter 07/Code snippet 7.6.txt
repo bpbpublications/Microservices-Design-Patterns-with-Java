@@ -1,0 +1,35 @@
+import net.spy.memcached.MemcachedClient;
+…
+
+public class DistributedLock {
+    private MemcachedClient client;
+    private String key;
+
+    public DistributedLock(String key, String memcachedServer, int memcachedPort) throws IOException {
+        this.key = key;
+        this.client = new MemcachedClient(new InetSocketAddress(memcachedServer, memcachedPort));
+    }
+
+    public boolean acquire(int lockExpireTime, TimeUnit unit) {
+        boolean success = false;
+        try {
+            Future<Boolean> future = client.add(key, (int) unit.toSeconds(lockExpireTime), "LOCKED");
+            // Wait for the operation to complete
+            success = future.get();
+        } catch (Exception e) {e.printStackTrace();}
+        return success;
+    }
+
+    public boolean tryAcquire(int lockExpireTime, TimeUnit unit) {
+        Future<Boolean> future = client.add(key, (int) unit.toSeconds(lockExpireTime), "LOCKED");
+        boolean success = false;
+        try {
+            // Try to acquire the lock but do not wait indefinitely
+            success = future.get(1, TimeUnit.SECONDS);
+        } catch (Exception e) {future.cancel(false);}
+        return success;
+    }
+
+    public void release() {client.delete(key);}
+}
+

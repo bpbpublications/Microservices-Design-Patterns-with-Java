@@ -1,0 +1,30 @@
+public class ProductMicroservice {
+    private IProductRepository _repository;
+    …
+}
+
+
+public class ProductMicroserviceBuilder {
+    private IProductRepository _repository;
+
+
+    public ProductRepositoryBuilder withRepositoryFor(String databaseType) throws ConfigurationException {
+        // Creation logic...
+        returns this;
+    }
+
+
+    public ProductMicroservice build() {
+        return new ProductMicroservice(this._repository, ...);
+    }
+}
+...
+public static void main(String[] args) {
+    try {
+        ProductMicroservice microservice = new ProductMicroserviceBuilder()
+                .withRepositoryFor(System.getenv("DATABASE_TYPE")).build();
+            microservice.run();
+    } catch (Exception ex) {
+        System.err.println(ex.getMessage());
+    }
+}

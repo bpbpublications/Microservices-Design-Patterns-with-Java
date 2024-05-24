@@ -1,0 +1,92 @@
+1.	package com.example.samples.grpc;
+2.	
+3.	import io.grpc.ManagedChannel;
+4.	import io.grpc.ManagedChannelBuilder;
+5.	import io.grpc.stub.StreamObserver;
+6.	
+7.	import java.io.FileInputStream;
+8.	import java.io.FileOutputStream;
+9.	import java.io.IOException;
+10.	import java.util.concurrent.CountDownLatch;
+11.	import java.util.concurrent.TimeUnit;
+12.	
+13.	public class BlobGrpcClient {
+14.	    private final BlobServiceGrpc.BlobServiceStub asyncStub;
+15.	
+16.	    public BlobGrpcClient(String host, int port) {
+17.	        this(ManagedChannelBuilder.forAddress(host, port).usePlaintext());
+18.	    }
+19.	
+20.	    public BlobGrpcClient(ManagedChannelBuilder<?> channelBuilder) {
+21.	        ManagedChannel channel = channelBuilder.build();
+22.	        asyncStub = BlobServiceGrpc.newStub(channel);
+23.	    }
+24.	
+25.	    public void upload(String name, String filePath) throws IOException, InterruptedException {
+26.	        CountDownLatch finishLatch = new CountDownLatch(1);
+27.	        StreamObserver<UploadRequest> requestObserver = asyncStub.upload(new StreamObserver<UploadResponse>() {
+28.	            @Override
+29.	            public void onNext(UploadResponse response) {
+30.	                System.out.println("Upload completed");
+31.	            }
+32.	
+33.	            @Override
+34.	            public void onError(Throwable t) {
+35.	                t.printStackTrace();
+36.	                finishLatch.countDown();
+37.	            }
+38.	
+39.	            @Override
+40.	            public void onCompleted() {
+41.	                System.out.println("Upload finished");
+42.	                finishLatch.countDown();
+43.	            }
+44.	        });
+45.	
+46.	        byte[] buffer = new byte[1024];
+47.	        int len;
+48.	        try (FileInputStream fis = new FileInputStream(filePath)) {
+49.	            while ((len = fis.read(buffer)) != -1) {
+50.	                requestObserver.onNext(UploadRequest.newBuilder().setName(name).setChunk(com.google.protobuf.ByteString.copyFrom(buffer, 0, len)).build());
+51.	            }
+52.	        }
+53.	
+54.	        requestObserver.onCompleted();
+55.	        if (!finishLatch.await(1, TimeUnit.MINUTES)) {
+56.	            System.out.println("Upload can not finish within 1 minute");
+57.	        }
+58.	    }
+59.	
+60.	    public void download(String name, String filePath) throws IOException, InterruptedException {
+61.	        final CountDownLatch finishLatch = new CountDownLatch(1);
+62.	        FileOutputStream fos = new FileOutputStream(filePath);
+63.	        asyncStub.download(DownloadRequest.newBuilder().setName(name).build(), new StreamObserver<>() {
+64.	            @Override
+65.	            public void onNext(DownloadResponse value) {
+66.	                try {
+67.	                    fos.write(value.getChunk().toByteArray());
+68.	                } catch (IOException e) {
+69.	                    e.printStackTrace();
+70.	                }
+71.	            }
+72.	
+73.	            @Override
+74.	            public void onError(Throwable t) {
+75.	                t.printStackTrace();
+76.	                finishLatch.countDown();
+77.	            }
+78.	
+79.	            @Override
+80.	            public void onCompleted() {
+81.	                System.out.println("Download completed");
+82.	                finishLatch.countDown();
+83.	            }
+84.	        });
+85.	
+86.	        if (!finishLatch.await(1, TimeUnit.MINUTES)) {
+87.	            System.out.println("Download can not finish within 1 minute");
+88.	        }
+89.	        fos.close();
+90.	    }
+91.	}
+92.	

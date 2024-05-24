@@ -1,0 +1,16 @@
+public interface PaymentService {
+    boolean processPayment(double amount, String accountId);
+}
+
+public class OrderService {
+    private final PaymentService paymentService;
+
+    public OrderService(PaymentService paymentService) {
+        this.paymentService = paymentService;
+    }
+
+    public boolean placeOrder(double amount, String accountId) {
+        // ... other business logic ...
+        return paymentService.processPayment(amount, accountId);
+    }
+}

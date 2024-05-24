@@ -1,0 +1,24 @@
+# Set up the driver for Chrome
+driver = webdriver.Chrome(executable_path='/path/to/chromedriver')  # Replace with your path to chromedriver
+
+# Navigate to the login page
+driver.get("http://example.com/login")  # Replace with your login page URL
+
+# Find the username and password input fields by their element IDs
+username = driver.find_element(By.ID, "usernameField")  # Replace 'usernameField' with the appropriate ID
+password = driver.find_element(By.ID, "passwordField")  # Replace 'passwordField' with the appropriate ID
+
+# Input test credentials
+username.send_keys("testUser")
+password.send_keys("testPassword")
+password.send_keys(Keys.RETURN)  # Simulate pressing the Enter key
+
+# Wait for the dashboard to load and check for an element unique to the dashboard
+driver.implicitly_wait(10)  # Wait up to 10 seconds for the element to appear
+dashboard_element = driver.find_element(By.ID, "dashboardElement")  # Replace 'dashboardElement' with the appropriate ID
+
+# Assert that the dashboard element is displayed
+assert dashboard_element.is_displayed()
+
+# Clean up and close the browser window
+driver.quit()

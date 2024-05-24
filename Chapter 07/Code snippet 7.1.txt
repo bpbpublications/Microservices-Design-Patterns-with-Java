@@ -1,0 +1,5 @@
+spring.cache.type=redis
+spring.cache.redis.time-to-live=3600000 # TTL in milliseconds
+spring.cache.redis.key-prefix=userAccount
+spring.cache.redis.cache-null-values=false
+spring.cache.redis.use-key-prefix=true

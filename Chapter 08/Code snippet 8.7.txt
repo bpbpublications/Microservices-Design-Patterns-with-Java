@@ -1,0 +1,9 @@
+@RestController
+   @RequestMapping("/api")
+   public class MyController {
+
+       @GetMapping("/hello")
+       public ResponseEntity<String> hello() {
+           return ResponseEntity.ok("Hello, SSL!");
+       }
+   }

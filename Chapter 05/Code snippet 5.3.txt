@@ -1,0 +1,12 @@
+1.	package com.example.samples;
+2.	
+3.	import org.springframework.boot.SpringApplication;
+4.	import org.springframework.boot.autoconfigure.SpringBootApplication;
+5.	
+6.	@SpringBootApplication
+7.	public class SampleRestServiceApplication {
+8.	
+9.	    public static void main(String[] args) {
+10.	        SpringApplication.run(SampleRestServiceApplication.class, args);
+11.	    }
+12.	}

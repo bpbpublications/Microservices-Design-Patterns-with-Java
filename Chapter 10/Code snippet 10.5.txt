@@ -1,0 +1,14 @@
+# Use an official Java Runtime Environment (JRE) base image
+FROM eclipse-temurin:17-jre-jammy
+
+# Set the application directory inside the container
+WORKDIR /app
+
+# Copy the JAR file into the container at /app
+COPY ./HelloWorldService-0.0.1-SNAPSHOT.jar /app/HelloWorldService.jar
+
+# Specify the entry point. This will run the JAR when the container starts.
+ENTRYPOINT ["java", "-jar", "/app/HelloWorldService.jar"]
+
+# Expose the port the app runs on
+EXPOSE 8080

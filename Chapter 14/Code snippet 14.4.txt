@@ -1,0 +1,1 @@
+String param1 = getServletContext().getInitParameter("param1");

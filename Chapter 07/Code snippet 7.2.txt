@@ -1,0 +1,18 @@
+import com.example.samples.data.UserAccount;
+…
+@Service
+public class UserAccountServiceNative {
+    private final UserAccountRepository userAccountRepository;
+    public UserAccountServiceNative(UserAccountRepository userAccountRepository) {
+        this.userAccountRepository = userAccountRepository;
+    }
+    @Cacheable(value = "userAccount", key = "#id")
+    public UserAccount getAccount(Long id) {
+        return userAccountRepository.findById(id).orElseThrow(() -> new RuntimeException("Account not found"));
+    }
+    @CacheEvict(value = "userAccount", key = "#userAccount.id")
+    public UserAccount updateAccount(UserAccount userAccount) {
+        return userAccountRepository.save(userAccount);
+    }
+    …
+}

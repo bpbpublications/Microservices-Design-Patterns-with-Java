@@ -1,0 +1,4 @@
+public interface KeyGenerator {
+    String generateKey();
+    List<String> generateKeys(int count);
+}

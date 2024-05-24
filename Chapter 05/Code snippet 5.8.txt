@@ -1,0 +1,15 @@
+1.	package com.example.samples.grpc;
+2.	import io.grpc.stub.StreamObserver;
+3.	
+4.	public class SampleGRPCServiceImpl extends SampleGRPCServiceGrpc.SampleGRPCServiceImplBase {
+5.	
+6.	    @Override
+7.	    public void doSomething(DoSomethingRequest request,
+8.	                            StreamObserver<DoSomethingResponse> responseObserver) {
+9.	        var req = request.getInput();
+10.	        var res = "Request: " + req + "\n" + "Hello, I just did something!";
+11.	
+12.	        responseObserver.onNext(DoSomethingResponse.newBuilder().setResult(res).build());
+13.	        responseObserver.onCompleted();
+14.	    }
+15.	}

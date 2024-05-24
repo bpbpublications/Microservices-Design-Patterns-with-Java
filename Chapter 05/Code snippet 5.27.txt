@@ -1,0 +1,66 @@
+1.	package com.example.samples.http;
+2.	
+3.	import org.springframework.core.io.ByteArrayResource;
+4.	import org.springframework.core.io.FileSystemResource;
+5.	import org.springframework.core.io.Resource;
+6.	import org.springframework.http.HttpEntity;
+7.	import org.springframework.http.HttpHeaders;
+8.	import org.springframework.http.HttpMethod;
+9.	import org.springframework.http.MediaType;
+10.	import org.springframework.http.client.ClientHttpRequest;
+11.	import org.springframework.http.client.ClientHttpResponse;
+12.	import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+13.	import org.springframework.util.LinkedMultiValueMap;
+14.	import org.springframework.util.MultiValueMap;
+15.	import org.springframework.util.StreamUtils;
+16.	import org.springframework.web.client.RequestCallback;
+17.	import org.springframework.web.client.ResponseExtractor;
+18.	import org.springframework.web.client.RestTemplate;
+19.	
+20.	import java.io.FileOutputStream;
+21.	import java.io.IOException;
+22.	import java.io.InputStream;
+23.	import java.net.URI;
+24.	import java.nio.charset.StandardCharsets;
+25.	import java.nio.file.Files;
+26.	import java.nio.file.Path;
+27.	import java.nio.file.Paths;
+28.	
+29.	public class BlobClient {
+30.	
+31.	    private final RestTemplate restTemplate;
+32.	
+33.	    public BlobClient() {
+34.	        HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
+35.	        restTemplate = new RestTemplate(requestFactory);
+36.	    }
+37.	
+38.	    public void upload(String url, String filePath) throws IOException {
+39.	        Path path = Paths.get(filePath);
+40.	
+41.	        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+42.	        body.add("file", new FileSystemResource(path));
+43.	
+44.	        var res = restTemplate.postForEntity(url, body, String.class);
+45.	        System.out.println(res.getBody());
+46.	    }
+47.	
+48.	    public void download(String url, String filePath) throws IOException {
+49.	        RequestCallback requestCallback = request -> {
+50.	            HttpHeaders headers = request.getHeaders();
+51.	            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+52.	        };
+53.	
+54.	        ResponseExtractor<byte[]> responseExtractor = (ResponseExtractor<byte[]>) response -> {
+55.	            try (InputStream inputStream = response.getBody()) {
+56.	                var byteArray = StreamUtils.copyToByteArray(inputStream);
+57.	                try (FileOutputStream stream = new FileOutputStream(filePath)) {
+58.	                    stream.write(byteArray);
+59.	                }
+60.	                return byteArray;
+61.	            }
+62.	        };
+63.	
+64.	        restTemplate.execute(URI.create(url), HttpMethod.GET, requestCallback, responseExtractor);
+65.	    }
+66.	}

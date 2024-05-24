@@ -1,0 +1,17 @@
+@EnableDiscoveryClient
+@RestController
+public class Application {
+
+
+    @Value("${param1}") // param2=value_from_consul_1
+    String value1;
+    @Value("${param2}") // param2=value_from_consul_2
+    String value2;
+
+
+    @RequestMapping(value = "/consul_configs", method = RequestMethod.GET)
+    public String getValue() {
+        return value1 + " | " + value2 ; // returns: "value_from_consul_1 | value_from_consul_2"
+    }
+    ...
+}

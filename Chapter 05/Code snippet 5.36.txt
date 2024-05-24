@@ -1,0 +1,10 @@
+1.	package com.example.client;
+2.	
+3.	
+4.	public class MockClient implements IClient {
+5.	
+6.	    @Override
+7.	    public String doSomething(String correlationId) {
+8.	        return "Do something method called!";
+9.	    }
+10.	}

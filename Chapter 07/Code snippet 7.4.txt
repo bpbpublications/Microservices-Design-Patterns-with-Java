@@ -1,0 +1,8 @@
+public class Account {
+    private Long id;
+    private double balance;
+    private Long version;
+
+    // getters and setters...
+}
+

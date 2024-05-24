@@ -1,0 +1,12 @@
+@Component
+@ConfigurationProperties(prefix = "component")
+@RefreshScope
+public class UrlConfigs {
+    // This is for storing application properties in a Map
+    public Map<String, String> configurations;
+    ...
+    // Get property value using key
+    public String getUrlProps(String key) {
+        return configurations.get(key);
+    }
+}

@@ -1,0 +1,8 @@
+1.	@RequestMapping(path = "/sample", headers=”X-API-Version=1”)
+2.	public class SampleRestServiceV1 {
+3.	
+4.	    @PostMapping("/do-something")
+5.	    public String doSomething() {
+6.	        return "Hello, I just did something!";
+7.	    }
+8.	}

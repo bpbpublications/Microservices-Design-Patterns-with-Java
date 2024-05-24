@@ -1,0 +1,17 @@
+1.	package com.example.client;
+2.	
+3.	import com.example.service.logic.IController;
+4.	import org.pipservices3.commons.refer.Descriptor;
+5.	
+6.	public class DirectClient extends org.pipservices3.rpc.clients.DirectClient<IController> implements IClient {
+7.	
+8.	    public DirectClient() {
+9.	        super();
+10.	        this._dependencyResolver.put("controller", new Descriptor("sample-service", "controller", "*", "*", "1.0"));
+11.	    }
+12.	
+13.	    @Override
+14.	    public String doSomething(String correlationId) {
+15.	        return this._controller.doSomething(correlationId);
+16.	    }
+17.	}

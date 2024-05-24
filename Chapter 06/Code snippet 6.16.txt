@@ -1,0 +1,7 @@
+@Repository
+public interface EmployeeRepository extends JpaRepository<Employee, Long>, JpaSpecificationExecutor<Employee> {
+    ...
+
+    @Query(nativeQuery = true)
+    Page<Map<String, Object>> findAllProjected(Specification<Employee> spec, Pageable pageable, Sort sort, @Param("fields") List<String> fields);
+}

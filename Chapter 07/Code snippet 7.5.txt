@@ -1,0 +1,21 @@
+import java.sql.*;
+
+public class AccountDao {
+
+    private final DataSource dataSource;
+
+    public AccountDao(DataSource dataSource) {this.dataSource = dataSource;}
+
+    public void updateAccountBalance(Account account, double amount) throws SQLException {
+        try (Connection connection = dataSource.getConnection()) {
+            String sql = "UPDATE accounts SET balance = ?, version = version + 1 WHERE id = ? AND version = ?";
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setDouble(1, account.getBalance() - amount);
+                statement.setLong(2, account.getId());
+                statement.setLong(3, account.getVersion());
+
+                int rowsAffected = statement.executeUpdate();
+
+                if (rowsAffected == 0) {
+                throw new OptimisticLockException("Account was updated by another transaction");
+                }}}}}

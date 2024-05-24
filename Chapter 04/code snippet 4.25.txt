@@ -1,0 +1,4 @@
+@ConditionalOnProperty(value = "database.type", havingValue = "mysql")
+public interface MySqlProductRepository extends IProductRepository {
+    ...
+}

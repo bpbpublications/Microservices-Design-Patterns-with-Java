@@ -1,0 +1,7 @@
+@EJB
+MyTimerServiceBean timerBean;
+
+public void someMethod() {
+    // Starts a timer which will invoke `timeoutHandler` after 10 seconds.
+    timerBean.initializeTimer(10000);
+}

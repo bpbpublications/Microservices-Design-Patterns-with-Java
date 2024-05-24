@@ -1,0 +1,70 @@
+region                  = "us-west-2"
+eks_cluster_name        = "my-eks-cluster"
+eks_cluster_version     = "1.21"
+subnets                 = ["subnet-abcde012", "subnet-bcde012a"]
+eks_desired_capacity    = 2
+eks_max_capacity        = 3
+eks_min_capacity        = 1
+eks_instance_type       = "m5.large"
+key_name                = "my-key"
+rds_allocated_storage   = 50
+rds_instance_class      = "db.m4.large"
+rds_db_name             = "mydb"
+rds_db_username         = "admin"
+rds_db_password         = "yourpassword"
+kafka_instance_count    = 3
+kafka_instance_type     = "m5.large"
+kafka_version           = "2.4.0"
+
+AWS Provider and Terraform Configuration (main.tf - Code snippet 12.2):
+
+provider "aws" {
+  region = var.region
+}
+
+# EKS Configuration
+module "eks" {
+  source          = "terraform-aws-modules/eks/aws"
+  cluster_name    = var.eks_cluster_name
+  cluster_version = var.eks_cluster_version
+  subnets         = var.subnets
+
+  node_groups = {
+    eks_nodes = {
+      desired_capacity = var.eks_desired_capacity
+      max_capacity     = var.eks_max_capacity
+      min_capacity     = var.eks_min_capacity
+
+      instance_type = var.eks_instance_type
+      key_name      = var.key_name
+    }
+  }
+}
+
+# RDS Configuration
+resource "aws_db_instance" "default" {
+  allocated_storage    = var.rds_allocated_storage
+  storage_type         = "gp2"
+  engine               = "mysql"
+  engine_version       = "5.7"
+  instance_class       = var.rds_instance_class
+  name                 = var.rds_db_name
+  username             = var.rds_db_username
+  password             = var.rds_db_password
+  parameter_group_name = "default.mysql5.7"
+  skip_final_snapshot  = true
+}
+
+# Kafka Configuration
+module "kafka" {
+  source          = "SuperQueuer/kafka/aws"
+  instance_count  = var.kafka_instance_count
+  instance_type   = var.kafka_instance_type
+  kafka_version   = var.kafka_version
+  ...
+}
+
+# Variables Declaration
+variable "region" {}
+variable "eks_cluster_name" {}
+... # and so on for each variable

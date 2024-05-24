@@ -1,0 +1,20 @@
+public class OrderServiceTest {
+    
+    @Test
+    public void testPlaceOrder() {
+        // Create mock of PaymentService
+        PaymentService mockPaymentService = mock(PaymentService.class);
+
+        // Define behavior of the mock
+        when(mockPaymentService.processPayment(100.0, "12345")).thenReturn(true);
+        
+        // Use the mock in OrderService
+        OrderService orderService = new OrderService(mockPaymentService);
+        
+        // Assert the behavior
+        assertTrue(orderService.placeOrder(100.0, "12345"));
+
+        // Verify that the mock method was called
+        verify(mockPaymentService).processPayment(100.0, "12345");
+    }
+}

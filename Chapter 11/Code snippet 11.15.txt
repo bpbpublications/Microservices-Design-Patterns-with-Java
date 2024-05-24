@@ -1,0 +1,23 @@
+@Component
+public class ChaosMonkey {
+
+    @Value("${chaosmonkey.mttf}")
+    private long mttf;
+
+    @Value("${chaosmonkey.probability}")
+    private double probability;
+
+    private final Random random = new Random();
+
+    @EventListener(ApplicationReadyEvent.class)
+    public void initiateChaos() {
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if (random.nextDouble() < probability) {
+                    System.exit(1);  // Crash the microservice
+                }
+            }
+        }, mttf, mttf);
+    }
+}

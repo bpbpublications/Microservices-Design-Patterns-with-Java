@@ -1,0 +1,1 @@
+1.	ag asyncapi.yaml @asyncapi/java-spring-template -o output -p 'generator=java'

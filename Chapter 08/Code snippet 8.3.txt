@@ -1,0 +1,17 @@
+POST /graphql HTTP/1.1
+Host: example.com
+Authorization: Bearer <token>
+Content-Type: application/json
+Accept: application/json
+
+{
+  "query": "
+    {
+      product(id: 123) {
+        id
+        name
+        price
+      }
+    }
+  "
+}

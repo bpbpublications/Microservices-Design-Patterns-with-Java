@@ -1,0 +1,42 @@
+1.	ackage com.example.samples.http;
+2.	
+3.	import com.example.samples.storage.BlobStorage;
+4.	import org.springframework.http.HttpHeaders;
+5.	import org.springframework.http.ResponseEntity;
+6.	import org.springframework.web.bind.annotation.*;
+7.	import org.springframework.web.multipart.MultipartFile;
+8.	import org.springframework.core.io.ByteArrayResource;
+9.	import org.springframework.core.io.Resource;
+10.	import org.springframework.http.MediaType;
+11.	import java.io.IOException;
+12.	
+13.	@RestController
+14.	public class BlobController {
+15.	
+16.	    @PostMapping("/upload")
+17.	    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
+18.	        try {
+19.	            // Assuming you're storing the file in-memory for simplicity.
+20.	            // In production, you'd probably store it in a database or a blob store.
+21.	            byte[] data = file.getBytes();
+22.	            BlobStorage.put(file.getOriginalFilename(), data);
+23.	            return ResponseEntity.ok().body("File uploaded successfully.");
+24.	        } catch (IOException e) {
+25.	            return ResponseEntity.status(500).body("Failed to upload the file.");
+26.	        }
+27.	    }
+28.	
+29.	    @GetMapping("/download/{fileName}")
+30.	    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName) {
+31.	        byte[] data = BlobStorage.get(fileName);
+32.	        if (data == null) {
+33.	            return ResponseEntity.notFound().build();
+34.	        } else {
+35.	            ByteArrayResource resource = new ByteArrayResource(data);
+36.	            return ResponseEntity.ok()
+37.	                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName)
+38.	                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
+39.	                    .body(resource);
+40.	        }
+41.	    }
+42.	}

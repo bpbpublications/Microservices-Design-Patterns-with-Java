@@ -1,0 +1,4 @@
+GET /products/123 HTTP/1.1
+Host: example.com
+Authorization: Bearer <token>
+Accept: application/json
